@@ -1,7 +1,10 @@
-__version__ = "1.0.7"
+__version__ = "1.0.8"
 __changelog__ = {
     "unreleased": '''
     ''',
+     "1.0.8": """
+    - Fixes issue when credential token expires. 
+    """,
     "1.0.7": """
     - Fixes issues when SteamGuard is disabled. Made it so 2FA codes would ignore leading or trailing whitespace.
     - Code cleanup

@@ -19,3 +19,4 @@ output/
 /protoc
 *.zip
 *.gz
+/.env
