@@ -1,0 +1,41 @@
+name: Fetch and Create PR
+
+on:
+  schedule:
+    # Runs on january and july first
+    - cron: "0 0 1 1,7 *"
+  workflow_dispatch:  # Allow manual execution
+
+jobs:
+  fetch-and-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Git
+        run: |
+          git config --global user.name "v-Kaefer"
+          git config --global user.email "vitor.guttler@edu.pucrs.br"
+      
+      - name: Clone the repo
+        uses: actions/checkout@v4
+        with:
+          repository: GOG-Orion/galaxy-integration-steam
+          fetch-depth: 0
+
+      - name: Add original repository as upstream
+        run: git remote add upstream https://github.com/GOG-Nebula/galaxy-integration-steam
+
+      - name: Fetch from upstream
+        run: git fetch upstream
+
+      - name: Merge updates from upstream/main
+        run: git merge upstream/main --allow-unrelated-histories
+        continue-on-error: true  # In case of conflicts, wont fail
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: "Automated Update from Upstream"
+          body: "Fetch & merge every semester with any updates."
+          head: "auto-update"
+          base: "master"
